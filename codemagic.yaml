@@ -1,0 +1,55 @@
+workflows:
+  lifeos-android:
+    name: LifeOS Android Build
+
+    max_build_duration: 120
+
+    environment:
+      java: 17
+
+    cache:
+      cache_paths:
+        - ~/.gradle/caches
+        - ~/.gradle/wrapper
+
+    scripts:
+
+      - name: Check project
+        script: |
+          echo "=== Project root ==="
+          pwd
+          echo "=== Files ==="
+          ls -la
+
+      - name: Configure Android SDK
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+
+      - name: Check Gradle Wrapper
+        script: |
+          if [ ! -f "./gradlew" ]; then
+            echo "ERROR: gradlew is missing."
+            echo "Please add the Gradle Wrapper to the repository."
+            exit 1
+          fi
+
+      - name: Make Gradle executable
+        script: |
+          chmod +x ./gradlew
+
+      - name: Show Gradle version
+        script: |
+          ./gradlew --version
+
+      - name: Clean project
+        script: |
+          ./gradlew clean
+
+      - name: Build Debug APK
+        script: |
+          ./gradlew assembleDebug --stacktrace
+
+    artifacts:
+      - app/build/outputs/**/*.apk
+      - "**/build/outputs/**/*.apk"
+      - "**/build/reports/**/*"
