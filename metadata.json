@@ -1,0 +1,6 @@
+{
+  "name": "LifeOS",
+  "description": "Personal Digital Life Operating System. Plan, Track, Learn, Grow.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
